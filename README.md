@@ -1,15 +1,21 @@
+<div align="center">
+
 # E-Commerce Sales & Customer Analytics Dashboard
 
-End-to-end analytics project on the **Olist Brazilian e-commerce marketplace**, built with **SQL Server, Excel and Power BI**. The dashboard covers sales performance, products and sellers, customer retention, and delivery performance and satisfaction.
+**End-to-end analytics project on the Olist Brazilian e-commerce marketplace**
+built with SQL Server, Excel and Power BI
 
-![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat&logo=powerbi&logoColor=black)
-![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
-![Excel](https://img.shields.io/badge/Excel-217346?style=flat&logo=microsoftexcel&logoColor=white)
-![DAX](https://img.shields.io/badge/DAX-1D4E89?style=flat)
+![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat-square)
+![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=flat-square)
+![Excel](https://img.shields.io/badge/Excel-217346?style=flat-square)
+![DAX](https://img.shields.io/badge/DAX-1D4E89?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Completed-2E9E6B?style=flat-square)
 
 ![Dashboard preview](screenshots/01_Executive_Overview.png)
 
-**Quick links:** [Full project report (PDF)](docs/Ecommerce_Analytics_Project_Report.pdf) | [Dashboard export (PDF)](dashboard/Ecommerce_Dashboard.pdf) | [SQL scripts](sql/) | [Excel validation](excel/Ecommerce_Validation.xlsx)
+[Full Project Report (PDF)](docs/Ecommerce_Analytics_Project_Report.pdf) | [Dashboard Export (PDF)](dashboard/Ecommerce_Dashboard.pdf) | [SQL Scripts](sql/) | [Excel Validation](excel/Ecommerce_Validation.xlsx)
+
+</div>
 
 ---
 
@@ -23,13 +29,15 @@ End-to-end analytics project on the **Olist Brazilian e-commerce marketplace**, 
 - [Dashboard Pages](#dashboard-pages)
 - [Key Findings](#key-findings)
 - [Recommendations](#recommendations)
+- [SQL and DAX Highlights](#sql-and-dax-highlights)
 - [Data Quality and Validation](#data-quality-and-validation)
 - [Repository Structure](#repository-structure)
 - [How to Reproduce](#how-to-reproduce)
 - [Limitations and Future Work](#limitations-and-future-work)
 - [Project Report](#project-report)
+- [License](#license)
 - [Acknowledgements](#acknowledgements)
-- [Author](#author)
+- [Contact](#contact)
 
 ---
 
@@ -155,6 +163,47 @@ A one-page summary of findings and recommendations.
 4. **Reduce dependence on São Paulo:** grow marketing and logistics in RJ, MG, RS and PR.
 5. **Lower the freight burden:** test free-shipping thresholds on high-freight categories such as Furniture Decor.
 
+## SQL and DAX Highlights
+
+**SQL: order-level view with delivery and review metrics** (simplified; the full script is in `sql/04_delivery_view.sql`)
+
+```sql
+CREATE OR ALTER VIEW dbo.vw_orders AS
+SELECT o.order_id, c.customer_unique_id, c.customer_state,
+       DATEDIFF(DAY, o.order_purchase_timestamp,
+                     o.order_delivered_customer_date) AS delivery_days,
+       CASE WHEN o.order_delivered_customer_date >
+                 o.order_estimated_delivery_date THEN 1 ELSE 0 END AS is_late,
+       r.review_score
+FROM dbo.olist_orders_dataset o
+JOIN dbo.olist_customers_dataset c ON o.customer_id = c.customer_id
+LEFT JOIN (SELECT order_id, AVG(CAST(review_score AS FLOAT)) AS review_score
+           FROM dbo.olist_order_reviews_dataset GROUP BY order_id) r
+       ON o.order_id = r.order_id
+WHERE o.order_status = 'delivered'
+  AND o.order_delivered_customer_date IS NOT NULL;
+```
+
+**DAX: retention and delivery measures, and customer segmentation**
+
+```dax
+Repeat Rate % = DIVIDE([Repeat Customers], [Customer Count])
+
+Late Delivery % = DIVIDE([Late Orders], [Delivered Orders])
+
+Customer Segment =
+SWITCH(
+    TRUE(),
+    Dim_Customer[Orders] > 1 && Dim_Customer[Recency Days] <= 180, "Loyal",
+    Dim_Customer[Orders] > 1, "Repeat - Lapsed",
+    Dim_Customer[Recency Days] <= 90, "New - Recent",
+    Dim_Customer[Revenue] >= 200, "One-time - High Value",
+    "One-time - Lapsed"
+)
+```
+
+The full SQL and DAX code is in the appendices of the [project report](docs/Ecommerce_Analytics_Project_Report.pdf).
+
 ## Data Quality and Validation
 **Issues found and fixed**
 - The category translation file imported its header as a data row (columns named `column1` and `column2`). The columns were renamed and the header row removed, leaving the correct 71 rows.
@@ -175,7 +224,7 @@ A one-page summary of findings and recommendations.
 ## Repository Structure
 - `dashboard/`: Power BI report (.pbix), PDF export and colour theme
 - `sql/`: SQL Server scripts (setup and views, validation, analysis, delivery view)
-- `excel/`: Excel workbook used to cross-validate the key numbers
+- `excel/`: Excel workbook with the cross-validation results and pivot summaries (the source data is not included, to keep the file small)
 - `screenshots/`: dashboard page screenshots and the data model
 - `docs/`: detailed project report (PDF and Word)
 - `data/`: dataset source and loading instructions (raw data is not included)
@@ -183,6 +232,7 @@ A one-page summary of findings and recommendations.
 ```
 Olist-Ecommerce-Analytics-Dashboard/
 ├── README.md
+├── LICENSE
 ├── dashboard/
 ├── sql/
 ├── excel/
@@ -215,9 +265,23 @@ Olist-Ecommerce-Analytics-Dashboard/
 ## Project Report
 A detailed report covering the full workflow, SQL and DAX code, validation and findings is available in [docs/Ecommerce_Analytics_Project_Report.pdf](docs/Ecommerce_Analytics_Project_Report.pdf). A Word version is included in the same folder.
 
+## License
+The MIT license in this repository applies to the code and documentation only. The Olist dataset remains subject to its own terms on Kaggle.
+
 ## Acknowledgements
 Data: [Olist](https://olist.com/), published on Kaggle as the Brazilian E-Commerce Public Dataset. This project is for learning and portfolio purposes.
 
-## Author
+## Contact
+
+<div align="center">
+
 **Syed Ubedullah Basha**
-[LinkedIn](https://linkedin.com/in/syed-ubedullah-basha) | [GitHub](https://github.com/syed-ubedullah)
+Data Analyst | Power BI Developer | SQL Developer
+
+[![Gmail](https://img.shields.io/badge/Gmail-Email_Me-D14836?style=for-the-badge)](mailto:syedubedullahbasha@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge)](https://linkedin.com/in/syed-ubedullah-basha)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge)](https://github.com/syed-ubedullah)
+
+syedubedullahbasha@gmail.com
+
+</div>
