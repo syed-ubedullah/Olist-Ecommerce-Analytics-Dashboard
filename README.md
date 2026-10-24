@@ -11,7 +11,7 @@ built with SQL Server, Excel and Power BI
 ![DAX](https://img.shields.io/badge/DAX-1D4E89?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Completed-2E9E6B?style=flat-square)
 
-![Dashboard preview](screenshots/01_Executive_Overview.png)
+![Key Insights](screenshots/05_Key_Insights.png)
 
 [Full Project Report (PDF)](docs/Ecommerce_Analytics_Project_Report.pdf) | [Dashboard Export (PDF)](dashboard/Ecommerce_Dashboard.pdf) | [SQL Scripts](sql/) | [Excel Validation](excel/Ecommerce_Validation.xlsx)
 
