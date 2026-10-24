@@ -1,0 +1,15 @@
+{
+  "name": "Ecommerce Pro",
+  "dataColors": ["#1D4E89", "#00A6A6", "#F28C28", "#0B2545", "#2E9E6B", "#D64545", "#5C6B7A", "#8FB8DE"],
+  "background": "#FFFFFF",
+  "foreground": "#5C6B7A",
+  "tableAccent": "#1D4E89",
+  "good": "#2E9E6B",
+  "bad": "#D64545",
+  "neutral": "#F28C28",
+  "textClasses": {
+    "label": { "fontFace": "Segoe UI" },
+    "title": { "fontFace": "Segoe UI Semibold", "fontSize": 12, "color": "#0B2545" },
+    "callout": { "fontFace": "Segoe UI Semibold" }
+  }
+}
