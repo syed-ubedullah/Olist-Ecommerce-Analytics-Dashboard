@@ -247,16 +247,17 @@ Olist-Ecommerce-Analytics-Dashboard/
 3. Run the scripts in the `sql/` folder in order: `01_setup_and_view.sql`, `02_validation_queries.sql`, `03_analysis_queries.sql` and `04_delivery_view.sql`.
 4. Open `dashboard/Ecommerce_Dashboard.pbix` in Power BI Desktop. The file contains the imported data, so it opens without SQL Server. To refresh, point the data source to your own SQL Server instance.
 
+   
 ## Limitations and Future Work
 **Limitations**
 - The customer table is calculated at refresh, so it does not respond to the Year, Quarter and State slicers (Page 3 has no slicers).
 - A customer is called lapsed relative to 31 August 2018, the last date in the data.
 - Averages for states with few orders are less reliable.
 - Only delivered orders are analysed, and amounts are in Brazilian Real.
-- The link between late delivery and low reviews is an observed relationship, not proof of cause.
+- The links between late delivery and low reviews, and between a late first delivery and fewer repeat purchases, are observed relationships, not proof of cause. The repeat-purchase comparison covers customers whose first order was in 2017 and is not yet adjusted for state or product category.
 
 **Future work**
-- Test whether late delivery lowers the chance of a second purchase using cohort analysis.
+- Extend the late-delivery analysis with controls for state and product category to test whether lateness itself reduces repeat purchases.
 - Analyse payment methods and instalments.
 - Add text analysis of review comments.
 - Add seller-level delivery performance and a geographic map.
