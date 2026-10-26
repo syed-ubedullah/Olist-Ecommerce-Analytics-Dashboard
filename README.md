@@ -155,6 +155,7 @@ A one-page summary of findings and recommendations.
 - **Delivery drives satisfaction:** 91.9% of orders arrive on time, but review scores fall from 4.3 stars (on time) to 3.6 (up to 3 days late), 2.1 (4 to 7 days late) and 1.7 (8 or more days late).
 - **Late deliveries peak in busy periods:** the late rate reached 14.3% in November 2017, 16.0% in February 2018 and 21.4% in March 2018. The data does not state the cause.
 - **Northern and north-eastern states are slowest:** for example Amazonas 26.4 days, Alagoas 24.5 and Pará 23.7, about twice the national average of 12.5 days. States with fewer than 100 orders (RR, AP and AC) are excluded from the dashboard ranking.
+- **Late first deliveries are linked to fewer repeat purchases:** among customers whose first order was in 2017, the repeat rate was 3.0% when the first delivery was late versus 4.2% when it was on time (about 29% lower). The gap is statistically significant but small in absolute terms, so late delivery explains only part of the low retention.
 
 ## Recommendations
 1. **Improve retention:** run follow-ups, coupons and loyalty rewards, starting with the roughly 11K high-value one-time buyers and the roughly 18K recent first-time buyers.
